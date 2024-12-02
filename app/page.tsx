@@ -1,9 +1,9 @@
-import { fetcher } from '@/services/fetcher'
-import { GET_ALL_URL } from '@/services/rapidapi-config'
-import { Animes } from '@/types/anime'
 import { Suspense } from 'react'
 import Loading from './loading'
+import { Animes } from '@/types/anime'
+import { fetcher } from '@/services/fetcher'
 import { AnimeCard } from '@/components/anime-card'
+import { GET_ALL_URL } from '@/services/rapidapi-config'
 
 export default async function Home() {
   const animes = await fetcher<Animes>(GET_ALL_URL)
