@@ -5,8 +5,7 @@ import { Anime } from '@/types/anime'
 import Image from 'next/image'
 import { Status } from '@/types/anime'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Heart } from 'lucide-react'
+import { AddFavorites } from '@/components/add-favorites'
 
 export default async function AnimeDescriptionPage({ params }: { params: { id: string } }) {
   const anime = await fetcher<Anime>(GET_BY_ID_URL(params.id))
@@ -52,12 +51,10 @@ export default async function AnimeDescriptionPage({ params }: { params: { id: s
           </div>
         </div>
         <div className='mb-4'>
-          <Button
-            variant='outline'
-            className='w-full sm:w-auto font-semibold'
-          >
-            <Heart className='mr-2 size-4' /> Add to favorites
-          </Button>
+          <AddFavorites
+            anime={anime}
+            id={params.id}
+          />
         </div>
         <div>
           <h2 className='text-xl font-semibold mb-2'>Synopsis</h2>

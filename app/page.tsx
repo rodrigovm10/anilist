@@ -7,7 +7,7 @@ import { AnimeCard } from '@/components/anime-card'
 
 export default async function Home() {
   const animes = await fetcher<Animes>(GET_ALL_URL)
-  console.log(animes?.data[0].alternativeTitles)
+
   return (
     <main className='container mx-auto px-4 py-8'>
       <h1 className='font-bold text-3xl mb-8 text-center'>
