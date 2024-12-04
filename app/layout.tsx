@@ -4,6 +4,8 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme/theme-provider'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { Toaster } from '@/components/ui/sonner'
+import { AuthProvider } from '@/context/authContext'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -31,16 +33,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased grid min-h-dvh grid-rows-[auto_1fr_auto]`}
       >
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            {children}
+            <Toaster />
+            <Footer />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )

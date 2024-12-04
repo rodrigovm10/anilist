@@ -1,12 +1,27 @@
 'use client'
 
 import { AnimeCard } from '@/components/anime-card'
+import { useAuth } from '@/hooks/useAuth'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Anime } from '@/types/anime'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function FavoritesPage() {
   const [animesFavorites] = useLocalStorage<Anime[]>('animes-favorites', [])
-  console.log(animesFavorites)
+  const { isAuthenticated } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/signin')
+    }
+  }, [])
+
+  if (!isAuthenticated) {
+    return <div>Redirigiendo...</div>
+  }
+
   return (
     <main className='container mx-auto px-4 py-8'>
       <h1 className='font-bold text-3xl mb-8'>Your Favorites</h1>

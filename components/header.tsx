@@ -6,11 +6,13 @@ import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
 import naruto from '@/assets/naruto.png'
-import { ITEMS_ROUTES } from '@/constants/item'
+import { ITEMS_ROUTES_LOGGED, ITEMS_ROUTES_NOT_LOGGED } from '@/constants/item'
 import { ThemeToggle } from './theme/theme-toggle'
+import { useAuth } from '@/hooks/useAuth'
 
 export function Header() {
   const pathname = usePathname()
+  const { isAuthenticated } = useAuth()
 
   return (
     <header className='flex justify-between items-center py-2 px-3 border-b-2 border-red-400'>
@@ -29,17 +31,31 @@ export function Header() {
         </div>
       </Link>
       <ul className='flex items-center gap-x-3'>
-        {ITEMS_ROUTES.map(item => (
-          <li
-            key={item.id}
-            className={cn(
-              pathname === item.href && 'text-rose-500 underline underline-offset-8',
-              'font-semibold'
-            )}
-          >
-            <Link href={item.href}>{item.text}</Link>
-          </li>
-        ))}
+        {isAuthenticated &&
+          ITEMS_ROUTES_LOGGED.map(item => (
+            <li
+              key={item.id}
+              className={cn(
+                pathname === item.href && 'text-rose-500 underline underline-offset-8',
+                'font-semibold'
+              )}
+            >
+              <Link href={item.href}>{item.text}</Link>
+            </li>
+          ))}
+        {!isAuthenticated &&
+          ITEMS_ROUTES_NOT_LOGGED.map(item => (
+            <li
+              key={item.id}
+              className={cn(
+                pathname === item.href && 'text-rose-500 underline underline-offset-8',
+                'font-semibold'
+              )}
+            >
+              <Link href={item.href}>{item.text}</Link>
+            </li>
+          ))}
+
         <li>
           <ThemeToggle />
         </li>
