@@ -1,19 +1,45 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { deleteUser, useGetUser, useGetUserById } from '@/db/queries'
 import { useAuth } from '@/hooks/useAuth'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { UserAuth } from '@/hooks/useRegister'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 
 export default function SettingsPage() {
   const { isAuthenticated, logout } = useAuth()
+  const [userLocalStorage, setUserLocalStorage] = useLocalStorage<UserAuth>('user', {
+    id: 0,
+    name: ''
+  })
   const router = useRouter()
+  const user = useGetUserById(userLocalStorage.id)
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/signin')
     }
   }, [])
+
+  const handleClickDeleteAccount = async () => {
+    if (!user.user) return
+    const [error, success] = await deleteUser(user.user.id!)
+
+    if (error) {
+      toast.error(error)
+      return
+    }
+    if (success) {
+      toast.success(success)
+
+      router.push('/')
+      logout()
+    }
+  }
 
   if (!isAuthenticated) {
     return <div>Redirigiendo...</div>
@@ -50,6 +76,7 @@ export default function SettingsPage() {
             <Button
               variant='destructive'
               className='w-full'
+              onClick={handleClickDeleteAccount}
             >
               Delete Account
             </Button>
