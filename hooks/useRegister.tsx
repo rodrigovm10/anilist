@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { useLocalStorage } from './useLocalStorage'
 
 interface User {
+  id?: string
   name: string
   password: string
 }
@@ -26,7 +27,7 @@ export function useRegisterLogin() {
   const { login } = useAuth()
   const router = useRouter()
 
-  const [userLocalStorage, setUserLocalStorage] = useLocalStorage<UserAuth>('user', {
+  const [, setUserLocalStorage] = useLocalStorage<UserAuth>('user', {
     id: 0,
     name: ''
   })
@@ -91,7 +92,7 @@ export function useRegisterLogin() {
       if (user.password !== confirmPassword) return setError('Password does not match')
 
       const passwordHashed = hashPassword(user.password)
-      const [error, success] = await createUser({ name: user.name, password: passwordHashed })
+      const [error, success, id] = await createUser({ name: user.name, password: passwordHashed })
 
       if (error) {
         toast.success('User cannot be registered, try later', {
@@ -105,7 +106,7 @@ export function useRegisterLogin() {
         toast.success('User registered successfully', {
           duration: 3000
         })
-        setUserLocalStorage({ id: user.id!, name: user.name })
+        setUserLocalStorage({ id: id!, name: user.name })
         login(tokenGenerated)
         router.push('/')
         setError('')

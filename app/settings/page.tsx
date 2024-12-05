@@ -2,22 +2,17 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { deleteUser, useGetUser, useGetUserById } from '@/db/queries'
+import { deleteUser, useGetUserById } from '@/db/queries'
 import { useAuth } from '@/hooks/useAuth'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { UserAuth } from '@/hooks/useRegister'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
 
 export default function SettingsPage() {
-  const { isAuthenticated, logout } = useAuth()
-  const [userLocalStorage, setUserLocalStorage] = useLocalStorage<UserAuth>('user', {
-    id: 0,
-    name: ''
-  })
+  const { isAuthenticated, logout, user: userLogged } = useAuth()
+
   const router = useRouter()
-  const user = useGetUserById(userLocalStorage.id)
+  const user = useGetUserById(userLogged.id)
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -50,12 +45,12 @@ export default function SettingsPage() {
       <section className='space-y-6'>
         <Card>
           <CardHeader>
-            <CardTitle>Email registered</CardTitle>
-            <CardDescription>See the email which you registered.</CardDescription>
+            <CardTitle>User name</CardTitle>
+            <CardDescription>See your user name which you registered.</CardDescription>
           </CardHeader>
           <CardContent>
             <p>
-              Email: <span>rv0611200369@gmail.com</span>
+              Username: <span>{user?.user?.name}</span>
             </p>
           </CardContent>
         </Card>

@@ -4,10 +4,11 @@ import { useLiveQuery } from 'dexie-react-hooks'
 export const createUser = async ({
   name,
   password
-}: User): Promise<[error?: string, success?: string]> => {
+}: User): Promise<[error?: string, success?: string, id?: number]> => {
   try {
-    await db.users.add({ name: name, password })
-    return [undefined, 'User created successfully']
+    const id = await db.users.add({ name: name, password })
+
+    return [undefined, 'User created successfully', id]
   } catch (error) {
     return [`You cannot create a user. Try later: ${error}`, undefined]
   }
