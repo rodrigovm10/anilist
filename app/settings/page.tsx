@@ -14,6 +14,7 @@ export default function SettingsPage() {
   const user = useGetUserById(userLogged.id)
 
   useEffect(() => {
+    console.log(user)
     if (!isAuthenticated) {
       router.push('/signin')
     }
