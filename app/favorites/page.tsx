@@ -18,10 +18,6 @@ export default function FavoritesPage() {
     }
   }, [])
 
-  if (!isAuthenticated) {
-    return <div>Redirigiendo...</div>
-  }
-
   return (
     <main className='container mx-auto px-4 py-8'>
       <h1 className='font-bold text-3xl mb-8'>Your Favorites</h1>

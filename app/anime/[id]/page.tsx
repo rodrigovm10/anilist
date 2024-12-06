@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Status } from '@/types/anime'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { AddFavorites } from '@/components/add-favorites'
+import { ShareAnime } from '@/components/share-anime'
 
 export default async function AnimeDescriptionPage({ params }: { params: { id: string } }) {
   const anime = await fetcher<Anime>(GET_BY_ID_URL(params.id))
@@ -50,11 +51,12 @@ export default async function AnimeDescriptionPage({ params }: { params: { id: s
             </div>
           </div>
         </div>
-        <div className='mb-4'>
+        <div className='mb-4 sm:space-x-4 space-y-2'>
           <AddFavorites
             anime={anime}
             id={params.id}
           />
+          <ShareAnime animeName={anime.title} />
         </div>
         <div>
           <h2 className='text-xl font-semibold mb-2'>Synopsis</h2>

@@ -1,3 +1,5 @@
+'use client'
+
 import { createUser, useGetUser } from '@/db/queries'
 import { comparePassword, hashPassword } from '@/lib/bcrypt'
 import { generateRandomWord } from '@/lib/jwt'

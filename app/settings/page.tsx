@@ -1,15 +1,14 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { AccountActions } from '@/components/account-actions'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { deleteUser, useGetUserById } from '@/db/queries'
+import { useGetUserById } from '@/db/queries'
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { toast } from 'sonner'
 
 export default function SettingsPage() {
-  const { isAuthenticated, logout, user: userLogged } = useAuth()
+  const { isAuthenticated, user: userLogged } = useAuth()
 
   const router = useRouter()
   const user = useGetUserById(userLogged.id)
@@ -20,25 +19,6 @@ export default function SettingsPage() {
     }
   }, [])
 
-  const handleClickDeleteAccount = async () => {
-    if (!user.user) return
-    const [error, success] = await deleteUser(user.user.id!)
-
-    if (error) {
-      toast.error(error)
-      return
-    }
-    if (success) {
-      toast.success(success)
-
-      router.push('/')
-      logout()
-    }
-  }
-
-  if (!isAuthenticated) {
-    return <div>Redirigiendo...</div>
-  }
   return (
     <main className='container mx-auto px-4 py-8'>
       <h1 className='text-3xl font-bold mb-8'>Settings</h1>
@@ -59,22 +39,7 @@ export default function SettingsPage() {
             <CardTitle>Account actions</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <Button
-              className='w-full'
-              onClick={() => {
-                router.push('/')
-                logout()
-              }}
-            >
-              Sign Out
-            </Button>
-            <Button
-              variant='destructive'
-              className='w-full'
-              onClick={handleClickDeleteAccount}
-            >
-              Delete Account
-            </Button>
+            <AccountActions />
           </CardContent>
         </Card>
       </section>
