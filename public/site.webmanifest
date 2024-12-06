@@ -1,11 +1,12 @@
 {
+  "name": "Anilist App",
+  "short_name": "Anilist",
   "theme_color": "#101010",
   "background_color": "#101010",
+  "start_url": "/",
+  "id": "AnilistApp",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/",
-  "name": "Anilist",
-  "short_name": "Anilist",
   "description": "Watch a list of animes and add to your favorites",
   "icons": [
     {

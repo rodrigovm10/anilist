@@ -5,6 +5,6 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.myanimelist.net', port: '', pathname: '/**' }
     ]
   }
+  // experimental: {servi}
 }
-
 export default nextConfig
