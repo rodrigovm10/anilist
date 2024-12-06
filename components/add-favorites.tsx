@@ -5,9 +5,11 @@ import { Button } from './ui/button'
 import { Heart } from 'lucide-react'
 import { Anime } from '@/types/anime'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/hooks/useAuth'
 
 export function AddFavorites({ id, anime }: { id: string; anime: Anime }) {
-  const { handleClickAddFavorites, isAnimeFavoriteSaved } = useFavorites(id)
+  const { user } = useAuth()
+  const { handleClickAddFavorites, isAnimeFavoriteSaved } = useFavorites(id, user.id)
 
   return (
     <Button
