@@ -16,22 +16,21 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useLocalStorage<UserAuth>('user', { id: 0, name: '' })
+  const [token, setToken] = useLocalStorage<string>('token', '')
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-
     if (token) {
       setIsAuthenticated(true)
     }
   }, [])
 
   const login = (token: string) => {
-    localStorage.setItem('token', token)
+    setToken(token)
     setIsAuthenticated(true)
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
+    setToken('')
     setIsAuthenticated(false)
     setUser({ id: 0, name: '' })
   }
